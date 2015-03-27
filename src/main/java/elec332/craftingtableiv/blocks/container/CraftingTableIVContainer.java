@@ -48,7 +48,7 @@ public class CraftingTableIVContainer extends Container {
     public CraftingTableIVContainer(EntityPlayer aPlayer, TECraftingTableIV tile)
     {
         worldObj = tile.getWorldObj();
-        int RecipeType = 0;
+        int RecipeType = CraftingTableIV.recipeType;
         theTile = tile;
         thePlayer = aPlayer;
         craftMatrix = new InventoryCrafting(this, 3, 3);
@@ -113,8 +113,8 @@ public class CraftingTableIVContainer extends Container {
 
 
         if(ElecCore.proxy.isClient()) {
-            timer = new Timer();
-            //timer.schedule(new RemindTask(), mod_CraftingTableIII.SyncWaitTime);
+            //timer = new Timer();
+            //timer.schedule(new RemindTask(), 2);
             populateSlotsWithRecipes();
         }
 
@@ -126,59 +126,28 @@ public class CraftingTableIVContainer extends Container {
         }
     }
 
-
-
-    //public IInventory getInventory()
-    {
-        //return inventory;
-    }
-    public void populateSlotsWithRecipes()
-    {
+    public void populateSlotsWithRecipes() {
         CraftingHandler.InitRecipes();
         if (ElecCore.proxy.isClient()) {
-            long StartTime = new Date().getTime();
             craftableRecipes.clearRecipes();
             recipeList = Collections.unmodifiableList(recipeList);
             InventoryPlayer Temp = new InventoryPlayer( thePlayer );
-
-            for(int i = 0; i < CraftingHandler.ValidOutput.size(); i++) { // Zeldo.ValidOutput.size()
+            for(int i = 0; i < CraftingHandler.ValidOutput.size(); i++) {
                 Temp.copyInventory(thePlayer.inventory);
-                //System.out.println("RecipeCheck: " + i + "/" + Zeldo.ValidOutput.size() + " - " + Zeldo.ValidOutput.get(i).ItemID + "@" + Zeldo.ValidOutput.get(i).ItemDamage);
-                if ((Boolean)CraftingHandler.canPlayerCraft(Temp, (ItemDetail)CraftingHandler.ValidOutput.get(i), theTile, i)[0])
-                {
-                    craftableRecipes.addRecipe(((ItemDetail)CraftingHandler.ValidOutput.get(i)).iRecipe, i);
+                if ((Boolean)CraftingHandler.canPlayerCraft(Temp, CraftingHandler.ValidOutput.get(i), theTile, i)[0]) {
+                    craftableRecipes.addRecipe((CraftingHandler.ValidOutput.get(i)).iRecipe, i);
                 }
             }
-
-            //if (mod_CraftingTableIII.ShowTimings)
-            //    System.out.println("Calculation Time: " + (new Date().getTime() - StartTime));
         }
     }
 
 
-
-
-    // Check InventorPlayer contains the ItemStack.
-    private int getFirstInventoryPlayerSlotWithItemStack(InventoryPlayer inventory, ItemStack itemstack)
-    {
-        for(int i = 0; i < inventory.getSizeInventory(); i++) {
-            ItemStack itemstack1 = inventory.getStackInSlot(i);
-            if(itemstack1 != null
-                    && itemstack1.getItem() == itemstack.getItem()
-                    && (itemstack1.getItemDamage() == itemstack.getItemDamage() || itemstack.getItemDamage() == -1)) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-    public static int getRecipeIngredients(ItemDetail theItem)
-    {
+    public static int getRecipeIngredients(ItemDetail theItem) {
         return getRecipeIngredients(theItem, 0);
     }
+
     // Get a list of ingredient required to craft the recipe item.
-    public static int getRecipeIngredients(ItemDetail theItem, int offset)
-    {
+    public static int getRecipeIngredients(ItemDetail theItem, int offset) {
         if (CraftingHandler.ValidOutput.size() <= offset)
             return -1;
         for (int i=offset; i<CraftingHandler.ValidOutput.size(); i++)
@@ -190,41 +159,8 @@ public class CraftingTableIVContainer extends Container {
     }
 
     @SuppressWarnings("unchecked")
-    public static ItemStack[] getRecipeIngredientsOLD(IRecipe irecipe)
-    {
-        /*try {
-            if (irecipe == null)
-                return null;
-            if(irecipe instanceof ShapedRecipes) {
-                //return (ItemStack[])ModLoader.getPrivateValue(ShapedRecipes.class, (ShapedRecipes)irecipe, 2);
-            } else if(irecipe instanceof ShapelessRecipes) {
-                //if (irecipe.getRecipeOutput().getItem().getUnlocalizedName() != null)
-                //{
-                    //if (irecipe.getRecipeOutput().getItem().getItemName().equalsIgnoreCase("tile.rpwire"))
-                    //{
-                        //return null;
-                    //}
-                //}
-                //ArrayList recipeItems = new ArrayList((List)ModLoader.getPrivateValue(ShapelessRecipes.class, (ShapelessRecipes)irecipe, 1));
-                ArrayList recipeItems = new ArrayList(((ShapelessRecipes) irecipe).recipeItems);
-                return (ItemStack[])recipeItems.toArray(new ItemStack[recipeItems.size()]);
-            } else {
-                /*String className = irecipe.getClass().getName();
-                if(className.equals("ic2.common.AdvRecipe")) {
-                    //return (ItemStack[]) ModLoader.getPrivateValue((Class)irecipe.getClass(), (Object)irecipe, "input");
-                } else if(className.equals("ic2.common.AdvShapelessRecipe")) {
-                    //return (ItemStack[]) ModLoader.getPrivateValue((Class)irecipe.getClass(), (Object)irecipe, "input");
-                } else {
-                    if (mod_CraftingTableIII.ShowTimings)
-                        System.out.println("Invalid Recipe Class: " + className);
-                    return null;
-                }
-                return null;
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }*/try {
+    public static ItemStack[] getRecipeIngredientsOLD(IRecipe irecipe) {
+        try {
         if (irecipe == null)
             return null;
         else if (irecipe instanceof ShapelessRecipes) {
@@ -259,7 +195,7 @@ public class CraftingTableIVContainer extends Container {
             Minecraft.getMinecraft().thePlayer.sendChatMessage("There was an error loading some recipes, the error will be printed in the game log.");
             Minecraft.getMinecraft().thePlayer.sendChatMessage("Please report this to Elec332 with the entire gamelog here: https://github.com/Elecs-Mods/CraftingTable-IV/issues");
         }
-        CraftingTableIV.instance.error("Something went wrong while trying to aquire recipe ingredients!");
+        CraftingTableIV.instance.error("Something went wrong while trying to acquire recipe ingredients!");
         CraftingTableIV.instance.error(e);
     }
         return null;

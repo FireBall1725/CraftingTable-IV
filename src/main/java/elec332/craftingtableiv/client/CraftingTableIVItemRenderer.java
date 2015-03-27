@@ -1,7 +1,6 @@
 package elec332.craftingtableiv.client;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -17,14 +16,8 @@ public class CraftingTableIVItemRenderer implements IItemRenderer {
         modelCraftingTableIV = new ModelCraftingTableIV();
     }
 
-    //@Override
-    //public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-    //return true;
-    //}
-
     @Override
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
-    {
+    public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         switch (type)
         {
             case ENTITY:
@@ -40,14 +33,9 @@ public class CraftingTableIVItemRenderer implements IItemRenderer {
         }
     }
 
-    private void render(RenderBlocks render, ItemStack item, float x, float y, float z, float scaleq) {
-        //this.renderer.renderTileEntityAt(dummyTE, x, y, z, 0.0F);
-        //float scale = 0.07f;
-        //float rotation = getRotation(engine);
+    private void render(float x, float y, float z) {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
-        //GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
-        //GL11.glScalef(scale, scale, scale);
+        GL11.glTranslatef(x + 0.5f, y, z + 0.5f);
         ResourceLocation test = new ResourceLocation("craftingtableiv", "blocktextures/ctiv.png");
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(test);
         modelCraftingTableIV.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
@@ -56,19 +44,18 @@ public class CraftingTableIVItemRenderer implements IItemRenderer {
 
     @Override
     public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item, Object... data){
-        float scale = 0.08f;
         switch (type) {
             case ENTITY:
-                render((RenderBlocks) data[0], item, 0, 0, 0, scale);
+                render(0, 0, 0);
                 break;
             case EQUIPPED:
-                render((RenderBlocks) data[0], item, 0, 0, 0.5f, scale);
+                render(0, 0, 0.5f);
                 break;
             case EQUIPPED_FIRST_PERSON:
-                render((RenderBlocks) data[0], item, +0.5f, 0.5f, +0.5f, scale);
+                render(+0.5f, 0.5f, +0.5f);
                 break;
             case INVENTORY:
-                render((RenderBlocks) data[0], item, -0.5f, -0.5f, -0.5f, scale);
+                render(-0.5f, -0.5f, -0.5f);
                 break;
             default:
                 break;

@@ -33,6 +33,7 @@ public class CraftingTableIV extends ModBase {
     @SidedProxy(clientSide = "elec332.craftingtableiv.proxies.ClientProxy", serverSide = "elec332.craftingtableiv.proxies.CommonProxy")
     public static CommonProxy proxy;
     public static int guiID = 333;
+    public static int recipeType = 1;
     public static Block craftingTableIV;
 
     @Mod.Instance(ModID)

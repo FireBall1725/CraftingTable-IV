@@ -12,10 +12,9 @@ public class InterceptSlot extends Slot {
     public InterceptSlot(IInventory par1iInventory, int par2, int par3, int par4, CraftingTableIVContainer cont) {
         super(par1iInventory, par2, par3, par4);
     }
+
     @Override
-    public boolean isItemValid(ItemStack par1ItemStack)
-    {
+    public boolean isItemValid(ItemStack par1ItemStack) {
         return false;
     }
-
 }
