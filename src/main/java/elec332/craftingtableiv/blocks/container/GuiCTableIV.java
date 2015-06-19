@@ -113,7 +113,7 @@ public class GuiCTableIV extends GuiContainer {
 
     private List<ItemStack> getIngredients(IRecipe recipe){
         List<ItemStack> ret = Lists.newArrayList();
-        for (Object obj : CraftingHandler.getRecipeIngredients(recipe, null)){
+        for (Object obj : CraftingHandler.getRecipeIngredients(recipe)){
             if (obj instanceof ItemStack)
                 ret.add((ItemStack) obj);
             else if (obj instanceof List && !((List) obj).isEmpty())

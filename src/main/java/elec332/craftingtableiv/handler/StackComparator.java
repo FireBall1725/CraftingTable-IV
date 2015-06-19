@@ -12,8 +12,12 @@ public class StackComparator extends ItemComparator{
     }
 
     protected boolean stacksEqual(ItemStack s1){
+        return test(s1);
+    }
+
+    protected boolean test(ItemStack s1){
         if(s1.getItem() == stack.getItem()) {
-            if(s1.getItemDamage() == stack.getItemDamage() || stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || s1.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+            if(s1.getItemDamage() == stack.getItemDamage()){ // || stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || s1.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
                 return true;
             }
             if(!s1.getItem().getHasSubtypes() && !stack.getItem().getHasSubtypes()) {
@@ -22,5 +26,10 @@ public class StackComparator extends ItemComparator{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public StackComparator getCopy() {
+        return new StackComparator(stack.copy());
     }
 }

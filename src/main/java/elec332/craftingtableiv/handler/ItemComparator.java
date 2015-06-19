@@ -1,7 +1,6 @@
 package elec332.craftingtableiv.handler;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * Created by Elec332 on 7-6-2015.
@@ -9,9 +8,9 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemComparator {
 
     public ItemComparator(ItemStack stack){
-        this.stack = stack;
         if (stack == null || stack.getItem() == null)
             throw new IllegalArgumentException("Invalid ItemStack!");
+        this.stack = stack.copy();
     }
 
     protected ItemStack stack;
@@ -41,5 +40,9 @@ public class ItemComparator {
             return true;
         }
         return false;
+    }
+
+    public ItemComparator getCopy(){
+        return new ItemComparator(stack.copy());
     }
 }

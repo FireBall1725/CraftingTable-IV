@@ -172,7 +172,7 @@ public class CraftingHandler {
     }*/
 
 
-    public static boolean addItemStackPlayer(InventoryPlayer inventoryPlayer, TECraftingTableIV internal, ItemStack b) {
+    public static boolean addItemStackPlayer(InventoryWrapper<InventoryPlayer> inventoryPlayer, InventoryWrapper<TECraftingTableIV> internal, ItemStack b) {
         return internal.addItemStackToInventory(b.copy()) || inventoryPlayer.addItemStackToInventory(b.copy());
     }
 /*
@@ -186,7 +186,7 @@ public class CraftingHandler {
     }*/
 
 
-    public static void decrStackSize(InventoryPlayer inventoryPlayer, IInventory internal, int slot, int amount) {
+    public static void decrStackSize(InventoryWrapper<InventoryPlayer> inventoryPlayer, InventoryWrapper<TECraftingTableIV> internal, int slot, int amount) {
         if (slot < 18)
             internal.decrStackSize(slot, amount);
         else
@@ -238,12 +238,12 @@ public class CraftingHandler {
         return ret;
     }
 
-    public static int getFirstInventorySlotWithItemStack(InventoryPlayer inventoryPlayer, IInventory internal, ItemStack itemStack) {
-        int i = InventoryHelper.getFirstSlotWithItemStack(internal, itemStack);
+    public static int getFirstInventorySlotWithItemStack(InventoryWrapper<InventoryPlayer> inventoryPlayer, InventoryWrapper<TECraftingTableIV> internal, ItemStack itemStack) {
+        int i = internal.getFirstSlotWithItemStack(itemStack);
         if (i > -1)
             return i;
 
-        int q = InventoryHelper.getFirstSlotWithItemStack(inventoryPlayer, itemStack);
+        int q = inventoryPlayer.getFirstSlotWithItemStack(itemStack);
         if (q > -1)
             return q + 18;
 
@@ -337,7 +337,7 @@ public class CraftingHandler {
     }
 
 
-    public static Object[] getRecipeIngredients(IRecipe irecipe, InventoryPlayer inventoryPlayerNotUse) {
+    public static Object[] getRecipeIngredients(IRecipe irecipe){ //}, InventoryPlayer inventoryPlayerNotUse) {
         /*InventoryPlayer inventoryPlayer = new InventoryPlayer(inventoryPlayerNotUse.player);
         inventoryPlayer.copyInventory(inventoryPlayerNotUse);*/
         try {

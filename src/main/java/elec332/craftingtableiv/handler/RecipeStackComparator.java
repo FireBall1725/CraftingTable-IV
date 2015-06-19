@@ -9,9 +9,13 @@ import net.minecraft.item.ItemStack;
 public class RecipeStackComparator extends StackComparator {
 
     public RecipeStackComparator(ItemStack stack) {
+        this(stack, OredictHelper.getOreName(stack), true);
+    }
+
+    private RecipeStackComparator(ItemStack stack, String s, boolean b){
         super(stack);
-        string = OredictHelper.getOreName(stack);
-        b = true;
+        this.string = s;
+        this.b = b;
     }
 
     public RecipeStackComparator setCompareOre(boolean b) {
@@ -25,5 +29,10 @@ public class RecipeStackComparator extends StackComparator {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof RecipeStackComparator && ((b && ((RecipeStackComparator) obj).b) && string.equals(((RecipeStackComparator) obj).string))) || super.equals(obj);
+    }
+
+    @Override
+    public RecipeStackComparator getCopy() {
+        return new RecipeStackComparator(stack.copy(), string, b);
     }
 }
